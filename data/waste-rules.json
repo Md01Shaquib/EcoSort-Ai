@@ -1,0 +1,575 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-10-13",
+  "defaultRegion": "India",
+  "confidenceThreshold": 0.65,
+  "categories": {
+    "recyclable": {
+      "label": "Recyclable",
+      "color": "#10b981",
+      "bgColor": "#d1fae5",
+      "darkBgColor": "#064e3b",
+      "icon": "recycle",
+      "description": "Items that can be processed and reused as raw materials for new products."
+    },
+    "organic": {
+      "label": "Organic / Wet Waste",
+      "color": "#d97706",
+      "bgColor": "#fef3c7",
+      "darkBgColor": "#78350f",
+      "icon": "leaf",
+      "description": "Biodegradable waste that can be composted or processed into organic fertilizer."
+    },
+    "ewaste": {
+      "label": "E-Waste",
+      "color": "#8b5cf6",
+      "bgColor": "#ede9fe",
+      "darkBgColor": "#4c1d95",
+      "icon": "cpu",
+      "description": "Electronic and electrical waste requiring specialized recycling to recover materials and prevent toxic contamination."
+    },
+    "non_recyclable": {
+      "label": "Non-Recyclable",
+      "color": "#ef4444",
+      "bgColor": "#fee2e2",
+      "darkBgColor": "#7f1d1d",
+      "icon": "trash-2",
+      "description": "Items that cannot be economically recycled and must be disposed of responsibly."
+    },
+    "unknown": {
+      "label": "Unknown / Unidentified",
+      "color": "#6b7280",
+      "bgColor": "#f3f4f6",
+      "darkBgColor": "#374151",
+      "icon": "help-circle",
+      "description": "The item could not be confidently identified. Please try again or classify manually."
+    }
+  },
+  "items": [
+    {
+      "id": "plastic_bottle",
+      "names": ["Plastic Bottle", "PET Bottle", "Water Bottle", "Soda Bottle"],
+      "modelClasses": ["Plastic Bottle", "plastic_bottle", "plastic bottle"],
+      "category": "recyclable",
+      "disposalMethod": "Place in dry waste / recyclable bin after rinsing and removing the cap.",
+      "preparation": [
+        "Empty and rinse the bottle with water.",
+        "Remove the cap and label if possible.",
+        "Crush the bottle to save space.",
+        "Keep dry until collection."
+      ],
+      "warnings": [],
+      "specialNotes": "PET bottles (marked with ♳ or number 1) are among the most recyclable plastics. Avoid bottles contaminated with chemicals or oils.",
+      "sources": [
+        {
+          "name": "Central Pollution Control Board - Plastic Waste Management",
+          "url": "https://cpcb.nic.in/plastic-waste-management/"
+        }
+      ],
+      "regionalRules": {
+        "Mumbai": "Place in blue dry-waste bin. BMC collects dry waste on alternate days.",
+        "Delhi": "Segregate as dry waste. EDMC/SDMC/NDMC collect recyclables separately.",
+        "Bengaluru": "Place in dry waste bin (white). BBMP collects dry waste daily.",
+        "Chennai": "Segregate as recyclable dry waste. Corporation collects door-to-door."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "cardboard",
+      "names": ["Cardboard", "Cardboard Box", "Corrugated Box", "Packaging Box"],
+      "modelClasses": ["Cardboard", "cardboard", "Clean Cardboard"],
+      "category": "recyclable",
+      "disposalMethod": "Flatten and place in dry waste / recyclable bin. Sell to local kabadiwala for recycling.",
+      "preparation": [
+        "Remove any tape, staples, or packing material.",
+        "Flatten the box to save space.",
+        "Keep dry — wet cardboard is harder to recycle.",
+        "Remove any food residue."
+      ],
+      "warnings": ["Heavily greased or food-soiled cardboard (e.g., pizza boxes with oil) should go to organic/wet waste instead."],
+      "specialNotes": "Clean cardboard is highly recyclable. The kabadiwala network in India is one of the most effective informal recycling systems in the world.",
+      "sources": [],
+      "regionalRules": {
+        "default": "Sell to local kabadiwala or place in dry waste bin."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "paper",
+      "names": ["Paper", "Newspaper", "Office Paper", "Magazine", "Notebook"],
+      "modelClasses": ["Paper", "paper", "newspaper"],
+      "category": "recyclable",
+      "disposalMethod": "Collect and place in dry waste bin or sell to kabadiwala.",
+      "preparation": [
+        "Keep paper clean and dry.",
+        "Remove plastic covers or lamination.",
+        "Bundle newspapers together.",
+        "Separate glossy magazines from plain paper if possible."
+      ],
+      "warnings": ["Thermal paper (receipts), waxed paper, and heavily soiled paper are non-recyclable."],
+      "specialNotes": "Paper can be recycled 5-7 times before fibers become too short. Shredded paper is harder to recycle.",
+      "sources": [],
+      "regionalRules": {
+        "default": "Sell to local kabadiwala or place in dry waste collection."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "metal_can",
+      "names": ["Metal Can", "Aluminium Can", "Tin Can", "Beverage Can", "Steel Can"],
+      "modelClasses": ["Metal Can", "metal_can", "metal can", "aluminum can"],
+      "category": "recyclable",
+      "disposalMethod": "Rinse and place in dry waste bin. Aluminium cans have high recycling value.",
+      "preparation": [
+        "Empty and rinse the can.",
+        "Remove any paper labels if easy.",
+        "Crush if possible to save space.",
+        "Do not mix with hazardous chemical containers."
+      ],
+      "warnings": ["Aerosol cans should be fully emptied before disposal. Never puncture aerosol cans."],
+      "specialNotes": "Aluminium is infinitely recyclable without quality loss. Recycling aluminium uses 95% less energy than producing new aluminium.",
+      "sources": [],
+      "regionalRules": {
+        "default": "Sell to kabadiwala or place in dry waste bin."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "glass_bottle",
+      "names": ["Glass Bottle", "Glass Jar", "Glass Container"],
+      "modelClasses": ["Glass Bottle", "glass_bottle", "glass bottle", "glass"],
+      "category": "recyclable",
+      "disposalMethod": "Rinse and place in dry waste bin carefully. Handle with care to avoid breakage.",
+      "preparation": [
+        "Rinse the bottle or jar.",
+        "Remove metal caps and lids (recycle separately).",
+        "Handle carefully to avoid breakage.",
+        "Wrap broken glass in newspaper before disposal."
+      ],
+      "warnings": ["Broken glass should be wrapped in newspaper and labeled 'BROKEN GLASS' for handler safety."],
+      "specialNotes": "Glass is 100% recyclable and can be recycled endlessly without loss of quality. However, glass recycling infrastructure varies by city in India.",
+      "sources": [],
+      "regionalRules": {
+        "default": "Sell to kabadiwala or place in dry waste bin."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "recyclable_packaging",
+      "names": ["Packaging", "Clean Packaging", "Recyclable Packaging", "Plastic Packaging"],
+      "modelClasses": ["Recyclable Packaging", "packaging", "clean packaging"],
+      "category": "recyclable",
+      "disposalMethod": "Clean and place in dry waste bin if the packaging material is recyclable.",
+      "preparation": [
+        "Check for recycling symbols on the packaging.",
+        "Clean off any food residue.",
+        "Flatten to save space.",
+        "Separate different materials if mixed (e.g., plastic window on cardboard)."
+      ],
+      "warnings": ["Multi-layer packaging (like chip packets, tetra packs) is difficult to recycle. Check local facilities."],
+      "specialNotes": "Not all packaging is recyclable. Look for recycling symbols. Multi-layer packaging (MLP) requires specialized recycling facilities.",
+      "sources": [
+        {
+          "name": "CPCB - Extended Producer Responsibility",
+          "url": "https://cpcb.nic.in/"
+        }
+      ],
+      "regionalRules": {
+        "default": "Place in dry waste bin. Multi-layer packaging may need specialized collection."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "fruit_peels",
+      "names": ["Fruit Peel", "Banana Peel", "Orange Peel", "Apple Core", "Fruit Waste"],
+      "modelClasses": ["Fruit Peels", "fruit_peels", "fruit peel", "banana peel", "fruit waste"],
+      "category": "organic",
+      "disposalMethod": "Place in wet waste / organic bin. Ideal for composting.",
+      "preparation": [
+        "Separate from any non-organic packaging.",
+        "Place directly in wet waste bin.",
+        "Can be used for home composting.",
+        "No need to rinse or clean."
+      ],
+      "warnings": [],
+      "specialNotes": "Fruit peels are excellent for composting. Citrus peels may take longer to decompose. Consider home composting if available.",
+      "sources": [],
+      "regionalRules": {
+        "Mumbai": "Place in green wet-waste bin. BMC collects daily.",
+        "Bengaluru": "Place in green wet waste bin. BBMP mandates source segregation.",
+        "Delhi": "Place in green wet waste bin.",
+        "Chennai": "Place in wet waste bin for daily collection."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "vegetable_scraps",
+      "names": ["Vegetable Scraps", "Vegetable Waste", "Kitchen Scraps", "Veggie Peels"],
+      "modelClasses": ["Vegetable Scraps", "vegetable_scraps", "vegetable waste", "kitchen waste"],
+      "category": "organic",
+      "disposalMethod": "Place in wet waste / organic bin. Excellent for composting.",
+      "preparation": [
+        "Collect in a separate wet waste container.",
+        "Drain excess water if possible.",
+        "Do not mix with plastic bags.",
+        "Can be composted at home."
+      ],
+      "warnings": [],
+      "specialNotes": "Vegetable scraps decompose quickly and are ideal for vermicomposting. Many Indian cities now mandate wet waste segregation.",
+      "sources": [],
+      "regionalRules": {
+        "default": "Place in green/wet waste bin for municipal collection."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "leaves",
+      "names": ["Leaves", "Dry Leaves", "Garden Waste", "Yard Waste", "Plant Waste"],
+      "modelClasses": ["Leaves", "leaves", "dry leaves", "garden waste"],
+      "category": "organic",
+      "disposalMethod": "Place in wet/organic waste bin or compost directly.",
+      "preparation": [
+        "Collect in a biodegradable bag or directly in the bin.",
+        "Can be used as mulch in gardens.",
+        "Mix with other organic waste for composting.",
+        "Do not burn — open burning is banned in most Indian cities."
+      ],
+      "warnings": ["Do not burn leaves. Open burning causes air pollution and is prohibited under municipal and environmental regulations."],
+      "specialNotes": "Dry leaves make excellent composting material when mixed with wet kitchen waste (brown + green composting).",
+      "sources": [],
+      "regionalRules": {
+        "default": "Place in organic waste bin. Do not burn."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "food_waste",
+      "names": ["Food Waste", "Leftover Food", "Cooked Food Waste", "Plate Waste"],
+      "modelClasses": ["Food Waste", "food_waste", "food waste", "leftover food"],
+      "category": "organic",
+      "disposalMethod": "Place in wet waste bin. Do not mix with dry waste or recyclables.",
+      "preparation": [
+        "Remove any non-food items (plastic, foil, etc.).",
+        "Place in wet waste bin without plastic bags.",
+        "Drain excess liquids if possible.",
+        "Consider donating excess edible food to food banks."
+      ],
+      "warnings": [],
+      "specialNotes": "India wastes approximately 68.7 million tonnes of food annually. Consider reducing food waste at the source.",
+      "sources": [
+        {
+          "name": "Ministry of Environment - Solid Waste Management Rules 2016",
+          "url": "https://moef.gov.in/"
+        }
+      ],
+      "regionalRules": {
+        "default": "Place in green/wet waste bin for daily collection."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "coffee_grounds",
+      "names": ["Coffee Grounds", "Tea Leaves", "Used Tea Bags", "Coffee Waste"],
+      "modelClasses": ["Coffee Grounds", "coffee_grounds", "coffee grounds", "tea waste"],
+      "category": "organic",
+      "disposalMethod": "Place in wet waste bin or use directly as garden fertilizer.",
+      "preparation": [
+        "Remove from any non-biodegradable filter or packaging.",
+        "Can be added directly to compost or garden soil.",
+        "Tea bags may contain plastic — tear open and compost only the leaves.",
+        "Let cool before composting."
+      ],
+      "warnings": [],
+      "specialNotes": "Coffee grounds are nitrogen-rich and excellent for composting. They can also deter certain garden pests.",
+      "sources": [],
+      "regionalRules": {
+        "default": "Place in wet waste bin or compost at home."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "mobile_phone",
+      "names": ["Mobile Phone", "Smartphone", "Old Phone", "Cell Phone"],
+      "modelClasses": ["Mobile Phone", "mobile_phone", "smartphone", "old phone"],
+      "category": "ewaste",
+      "disposalMethod": "Do NOT dispose in regular waste. Take to an authorized e-waste collection centre or producer take-back programme.",
+      "preparation": [
+        "Back up and erase all personal data.",
+        "Remove SIM card and memory card.",
+        "Keep charger and accessories for separate e-waste disposal.",
+        "Do not attempt to disassemble.",
+        "Check if the manufacturer offers a take-back programme."
+      ],
+      "warnings": [
+        "Contains lithium batteries — do not burn, crush, or puncture.",
+        "Contains hazardous materials — improper disposal contaminates soil and groundwater.",
+        "Erase all personal data before disposal."
+      ],
+      "specialNotes": "Under the E-Waste Management Rules 2016 (amended 2022), producers and manufacturers are responsible for collecting e-waste. Many brands offer take-back or exchange programmes.",
+      "sources": [
+        {
+          "name": "CPCB - E-Waste Management",
+          "url": "https://cpcb.nic.in/e-waste/"
+        },
+        {
+          "name": "E-Waste Management Rules 2016",
+          "url": "https://moef.gov.in/"
+        }
+      ],
+      "regionalRules": {
+        "default": "Find an authorized e-waste dismantler/recycler listed on the CPCB website."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "charger_cable",
+      "names": ["Charger", "USB Cable", "Power Cable", "Charging Cable", "Adapter"],
+      "modelClasses": ["Charger", "charger", "cable", "Cables", "USB cable"],
+      "category": "ewaste",
+      "disposalMethod": "Collect with other e-waste and dispose at an authorized e-waste collection point.",
+      "preparation": [
+        "Bundle cables neatly.",
+        "Do not cut or strip cables.",
+        "Collect with other small e-waste items.",
+        "Drop off at an authorized collection point or e-waste drive."
+      ],
+      "warnings": ["Do not burn cables — the plastic coating releases toxic fumes."],
+      "specialNotes": "Many electronics retailers and manufacturers accept old cables and chargers. Check for local e-waste collection drives.",
+      "sources": [
+        {
+          "name": "CPCB - Authorized E-Waste Recyclers",
+          "url": "https://cpcb.nic.in/e-waste/"
+        }
+      ],
+      "regionalRules": {
+        "default": "Take to an authorized e-waste collection centre."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "circuit_board",
+      "names": ["Circuit Board", "PCB", "Motherboard", "Electronic Board", "Computer Parts"],
+      "modelClasses": ["Circuit Board", "circuit_board", "circuit board", "PCB", "motherboard"],
+      "category": "ewaste",
+      "disposalMethod": "Must be handled by authorized e-waste recyclers. Contains valuable and hazardous materials.",
+      "preparation": [
+        "Do not attempt to extract components.",
+        "Handle carefully — edges can be sharp.",
+        "Store in a dry place until disposal.",
+        "Take to an authorized e-waste facility."
+      ],
+      "warnings": [
+        "Contains lead, mercury, cadmium, and other hazardous substances.",
+        "Informal recycling of circuit boards is illegal and extremely hazardous.",
+        "Never burn circuit boards."
+      ],
+      "specialNotes": "Circuit boards contain recoverable gold, silver, copper, and other valuable metals. Only authorized facilities should process them.",
+      "sources": [
+        {
+          "name": "CPCB - E-Waste",
+          "url": "https://cpcb.nic.in/e-waste/"
+        }
+      ],
+      "regionalRules": {
+        "default": "Take to CPCB-authorized e-waste dismantler or recycler."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "battery",
+      "names": ["Battery", "AA Battery", "Lithium Battery", "Phone Battery", "Dry Cell"],
+      "modelClasses": ["Battery", "battery", "batteries"],
+      "category": "ewaste",
+      "disposalMethod": "Do NOT throw in regular waste. Use designated battery collection points.",
+      "preparation": [
+        "Tape the terminals of lithium batteries to prevent short circuits.",
+        "Do not store loose batteries together.",
+        "Keep away from heat and moisture.",
+        "Take to a battery collection point or e-waste centre."
+      ],
+      "warnings": [
+        "Batteries contain corrosive and toxic chemicals.",
+        "Lithium batteries can catch fire if damaged — handle with care.",
+        "Never puncture, crush, or incinerate batteries.",
+        "Keep away from children."
+      ],
+      "specialNotes": "Battery waste requires specialized handling under the Battery Waste Management Rules 2022. Many retail stores have battery drop-off bins.",
+      "sources": [
+        {
+          "name": "CPCB - Battery Waste Management",
+          "url": "https://cpcb.nic.in/"
+        }
+      ],
+      "regionalRules": {
+        "default": "Use battery drop-off bins at electronics stores or authorized collection centres."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "plastic_bag",
+      "names": ["Plastic Bag", "Polythene Bag", "Carry Bag"],
+      "modelClasses": ["Plastic Bag", "plastic_bag", "plastic bag", "polythene"],
+      "category": "non_recyclable",
+      "disposalMethod": "Single-use plastic bags are banned in India. Reuse if possible or place in dry waste.",
+      "preparation": [
+        "Check thickness — bags below 75 microns are banned.",
+        "Reuse thicker bags as many times as possible.",
+        "Clean and dry before placing in dry waste.",
+        "Switch to cloth or jute bags."
+      ],
+      "warnings": [
+        "Single-use plastic bags below 75 microns are banned under the Plastic Waste Management Amendment Rules 2021.",
+        "Do not burn plastic bags — releases toxic dioxins."
+      ],
+      "specialNotes": "India banned single-use plastics in phases. As of 2022, carry bags must be at least 75 microns thick.",
+      "sources": [
+        {
+          "name": "CPCB - Single Use Plastic",
+          "url": "https://cpcb.nic.in/plastic-waste-management/"
+        }
+      ],
+      "regionalRules": {
+        "default": "Avoid using single-use plastic bags. Use alternatives."
+      },
+      "lastVerified": "2026-09-01"
+    },
+    {
+      "id": "styrofoam",
+      "names": ["Styrofoam", "Thermocol", "Polystyrene", "Foam Packaging"],
+      "modelClasses": ["Styrofoam", "styrofoam", "thermocol", "foam"],
+      "category": "non_recyclable",
+      "disposalMethod": "Difficult to recycle. Place in dry waste bin. Avoid using styrofoam products.",
+      "preparation": [
+        "Clean off any food residue.",
+        "Do not break into small pieces — creates microplastic pollution.",
+        "Place in dry waste bin.",
+        "Consider reusing for packaging if clean."
+      ],
+      "warnings": ["Styrofoam/thermocol is banned for food packaging in many Indian states and cities."],
+      "specialNotes": "Expanded polystyrene (thermocol) is extremely difficult to recycle and persists in the environment for hundreds of years.",
+      "sources": [],
+      "regionalRules": {
+        "default": "Place in dry waste. Check if locally banned."
+      },
+      "lastVerified": "2026-09-01"
+    }
+  ],
+  "cities": [
+    {
+      "name": "Mumbai",
+      "state": "Maharashtra",
+      "pinCodes": ["400001-400104"],
+      "authority": "Brihanmumbai Municipal Corporation (BMC)",
+      "website": "https://portal.mcgm.gov.in/",
+      "segregationRules": "Mandatory source segregation into wet waste (green bin) and dry waste (blue bin).",
+      "collectionSchedule": "Daily door-to-door collection.",
+      "notes": "BMC has implemented mandatory waste segregation. Fines apply for non-compliance."
+    },
+    {
+      "name": "Delhi",
+      "state": "Delhi",
+      "pinCodes": ["110001-110097"],
+      "authority": "Municipal Corporation of Delhi (MCD)",
+      "website": "https://mcdonline.nic.in/",
+      "segregationRules": "Mandatory segregation into biodegradable (green), recyclable (blue), and domestic hazardous waste (red).",
+      "collectionSchedule": "Daily collection in most areas.",
+      "notes": "Delhi follows a three-bin segregation system."
+    },
+    {
+      "name": "Bengaluru",
+      "state": "Karnataka",
+      "pinCodes": ["560001-560110"],
+      "authority": "Bruhat Bengaluru Mahanagara Palike (BBMP)",
+      "website": "https://bbmp.gov.in/",
+      "segregationRules": "Mandatory segregation into wet waste (green), dry waste (white), and reject waste (red/black).",
+      "collectionSchedule": "Daily wet waste collection; dry waste on specific days.",
+      "notes": "BBMP pioneered source segregation in India. Strict enforcement with fines."
+    },
+    {
+      "name": "Chennai",
+      "state": "Tamil Nadu",
+      "pinCodes": ["600001-600130"],
+      "authority": "Greater Chennai Corporation (GCC)",
+      "website": "https://chennaicorporation.gov.in/",
+      "segregationRules": "Mandatory segregation into biodegradable and non-biodegradable waste.",
+      "collectionSchedule": "Daily door-to-door collection.",
+      "notes": "GCC provides door-to-door waste collection across all zones."
+    },
+    {
+      "name": "Pune",
+      "state": "Maharashtra",
+      "pinCodes": ["411001-411062"],
+      "authority": "Pune Municipal Corporation (PMC)",
+      "website": "https://www.pmc.gov.in/",
+      "segregationRules": "Mandatory source segregation into wet and dry waste.",
+      "collectionSchedule": "Daily collection.",
+      "notes": "PMC has been a leader in waste management innovation in India."
+    },
+    {
+      "name": "Hyderabad",
+      "state": "Telangana",
+      "pinCodes": ["500001-500100"],
+      "authority": "Greater Hyderabad Municipal Corporation (GHMC)",
+      "website": "https://www.ghmc.gov.in/",
+      "segregationRules": "Mandatory segregation into wet waste and dry waste.",
+      "collectionSchedule": "Daily collection in most areas.",
+      "notes": "GHMC provides door-to-door waste collection."
+    },
+    {
+      "name": "Kolkata",
+      "state": "West Bengal",
+      "pinCodes": ["700001-700108"],
+      "authority": "Kolkata Municipal Corporation (KMC)",
+      "website": "https://www.kmcgov.in/",
+      "segregationRules": "Segregation into biodegradable and non-biodegradable waste encouraged.",
+      "collectionSchedule": "Daily collection.",
+      "notes": "KMC is progressively implementing source segregation."
+    },
+    {
+      "name": "Ahmedabad",
+      "state": "Gujarat",
+      "pinCodes": ["380001-380060"],
+      "authority": "Ahmedabad Municipal Corporation (AMC)",
+      "website": "https://ahmedabadcity.gov.in/",
+      "segregationRules": "Mandatory wet and dry waste segregation.",
+      "collectionSchedule": "Daily door-to-door collection.",
+      "notes": "AMC has implemented colour-coded bins across the city."
+    }
+  ],
+  "generalGuidance": {
+    "composting": {
+      "title": "Home Composting",
+      "description": "Convert kitchen waste into nutrient-rich compost at home.",
+      "steps": [
+        "Get a compost bin or designate a composting area.",
+        "Add green waste (fruit peels, vegetable scraps) and brown waste (dry leaves, cardboard).",
+        "Maintain moisture — the pile should feel like a wrung-out sponge.",
+        "Turn the pile every 1-2 weeks for aeration.",
+        "Compost is ready in 2-3 months when it looks and smells like dark, crumbly soil."
+      ]
+    },
+    "ewasteDisposal": {
+      "title": "E-Waste Disposal in India",
+      "description": "Under the E-Waste Management Rules 2016, producers, consumers, and recyclers have specific responsibilities.",
+      "steps": [
+        "Identify your nearest authorized e-waste collection centre on the CPCB website.",
+        "Check if the manufacturer offers a take-back programme.",
+        "Many cities hold periodic e-waste collection drives.",
+        "Never sell e-waste to informal / unauthorized recyclers.",
+        "Erase personal data from all electronic devices before disposal."
+      ],
+      "referenceUrl": "https://cpcb.nic.in/e-waste/"
+    },
+    "reducePlastic": {
+      "title": "Reducing Plastic Waste",
+      "description": "Simple steps to minimize plastic waste in daily life.",
+      "steps": [
+        "Carry reusable bags for shopping.",
+        "Use a reusable water bottle.",
+        "Avoid single-use plastic cutlery and straws.",
+        "Choose products with minimal or recyclable packaging.",
+        "Refuse unnecessary plastic bags at shops."
+      ]
+    }
+  }
+}

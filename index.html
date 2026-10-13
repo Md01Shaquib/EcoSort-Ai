@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="description" content="EcoSort AI — AI-powered waste classifier PWA that helps you identify household waste and dispose of it responsibly. Supporting SDG 15: Life on Land." />
+  <meta name="theme-color" content="#059669" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="EcoSort AI" />
+  <meta name="robots" content="index, follow" />
+
+  <title>EcoSort AI — Smart Waste Classifier</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            forest: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d' },
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-green-50/30 dark:bg-slate-900 text-gray-900 dark:text-gray-100 font-sans antialiased min-h-screen transition-colors duration-300">
+
+  <!-- ============================================================ -->
+  <!-- NAVBAR -->
+  <!-- ============================================================ -->
+  <nav class="navbar fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3" id="navbar">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="logo-leaf flex items-center gap-2.5 group" aria-label="EcoSort AI Home">
+        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center shadow-md
+                    group-hover:shadow-lg group-hover:scale-105 transition-all">
+          <i data-lucide="leaf" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="text-lg font-bold text-gray-900 dark:text-white">
+          Eco<span class="text-emerald-600">Sort</span> <span class="text-xs font-medium text-emerald-500 ml-0.5">AI</span>
+        </span>
+      </a>
+
+      <!-- Nav Actions -->
+      <div class="flex items-center gap-2">
+        <!-- Model Status Badge -->
+        <div id="model-status" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 
+                                       text-xs font-medium text-gray-600 dark:text-gray-400 transition-opacity">
+          <i data-lucide="loader-2" class="w-4 h-4 animate-spin" id="model-status-icon"></i>
+          <span id="model-status-text">Loading model...</span>
+        </div>
+
+        <!-- Model Config Toggle -->
+        <button id="toggle-model-panel-btn" 
+                class="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400"
+                aria-label="AI Model settings"
+                title="AI Model settings">
+          <i data-lucide="settings" class="w-5 h-5"></i>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" 
+                class="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Toggle dark mode"
+                title="Toggle theme">
+          <i data-lucide="moon" class="w-5 h-5 text-gray-600 dark:text-gray-400"></i>
+        </button>
+
+        <!-- Install Button -->
+        <button id="install-btn" 
+                class="hidden items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 
+                       text-white text-sm font-medium transition-all shadow-md hover:shadow-lg"
+                aria-label="Install EcoSort AI">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">Install</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Spacer for fixed navbar -->
+  <div class="h-16"></div>
+
+  <!-- ============================================================ -->
+  <!-- MAIN CONTENT -->
+  <!-- ============================================================ -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
+
+    <!-- ========== HERO ========== -->
+    <section class="hero-gradient rounded-2xl sm:rounded-3xl px-6 py-10 sm:py-14 mt-4 sm:mt-6 text-center relative overflow-hidden">
+      <!-- Decorative elements -->
+      <div class="absolute top-4 right-6 opacity-20 animate-float">
+        <i data-lucide="recycle" class="w-16 h-16 text-emerald-700 dark:text-emerald-400"></i>
+      </div>
+      <div class="absolute bottom-4 left-6 opacity-15 animate-float" style="animation-delay: 1s;">
+        <i data-lucide="leaf" class="w-12 h-12 text-emerald-700 dark:text-emerald-400"></i>
+      </div>
+
+      <div class="relative z-10">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white mb-3 leading-tight">
+          Waste less. <span class="text-gradient">Recycle smarter.</span>
+        </h1>
+        <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          Identify waste items instantly using AI and learn the correct disposal method for your city. 
+          Supporting <strong class="text-emerald-700 dark:text-emerald-400">SDG 15: Life on Land</strong>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========== MODEL SETUP PANEL ========== -->
+    <section id="model-setup-panel" class="mt-6 animate-fade-in-up">
+      <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-5 sm:p-6">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="settings" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-gray-900 dark:text-white">Configure Your AI Model</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Train a waste classification model on 
+              <a href="https://teachablemachine.withgoogle.com/train/image" target="_blank" rel="noopener noreferrer" 
+                 class="text-emerald-600 dark:text-emerald-400 hover:underline font-medium">Google Teachable Machine</a>, 
+              export it for TensorFlow.js, and paste the model URL below.
+            </p>
+          </div>
+        </div>
+
+        <form id="model-url-form" class="flex flex-col sm:flex-row gap-3">
+          <div class="flex-1 relative">
+            <i data-lucide="link" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+            <input type="url" id="model-url-input" 
+                   placeholder="https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/"
+                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-amber-300 dark:border-amber-700 
+                          bg-white dark:bg-gray-800 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500
+                          placeholder:text-gray-400 transition-all"
+                   aria-label="Teachable Machine model URL"
+                   required />
+          </div>
+          <div class="flex gap-2">
+            <button type="submit" 
+                    class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm
+                           transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 flex-shrink-0">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+              Load Model
+            </button>
+            <button type="button" id="reset-model-btn" 
+                    class="px-4 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium text-sm
+                           transition-all flex items-center justify-center gap-2 flex-shrink-0"
+                    title="Clear saved URL and reset AI model">
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+              Reset URL
+            </button>
+          </div>
+        </form>
+
+        <details class="mt-4">
+          <summary class="text-sm font-medium text-amber-700 dark:text-amber-400 cursor-pointer hover:text-amber-800 
+                         dark:hover:text-amber-300 flex items-center gap-1">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            How to train and export your model
+          </summary>
+          <div class="mt-3 bg-white dark:bg-gray-800 rounded-xl p-4 text-sm text-gray-700 dark:text-gray-300 space-y-3 border border-gray-100 dark:border-gray-700">
+            <ol class="space-y-2 list-decimal list-inside">
+              <li>Go to <a href="https://teachablemachine.withgoogle.com/train/image" target="_blank" class="text-emerald-600 hover:underline">Teachable Machine Image Project</a></li>
+              <li>Create classes: <strong>Plastic Bottle</strong>, <strong>Cardboard</strong>, <strong>Paper</strong>, <strong>Metal Can</strong>, <strong>Glass Bottle</strong>, <strong>Fruit Peels</strong>, <strong>Vegetable Scraps</strong>, <strong>Food Waste</strong>, <strong>Leaves</strong>, <strong>Mobile Phone</strong>, <strong>Charger</strong>, <strong>Circuit Board</strong>, <strong>Battery</strong>, <strong>Plastic Bag</strong></li>
+              <li>Add 50+ training images per class using your webcam or by uploading photos</li>
+              <li>Click <strong>"Train Model"</strong> and wait for training to complete</li>
+              <li>Test the model in the preview panel to verify accuracy</li>
+              <li>Click <strong>"Export Model"</strong> → select <strong>"TensorFlow.js"</strong> → click <strong>"Upload my model"</strong></li>
+              <li>Copy the shareable link (it starts with <code class="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">https://teachablemachine.withgoogle.com/models/...</code>)</li>
+              <li>Paste the URL in the field above and click <strong>"Load Model"</strong></li>
+            </ol>
+            <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">
+              <strong>Tip:</strong> Use diverse images — different angles, lighting, and backgrounds improve accuracy. 
+              Aim for 100+ images per class for best results.
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ========== SCANNER SECTION ========== -->
+    <section id="scanner-section" class="mt-6 animate-fade-in-up" style="animation-delay: 100ms">
+      <div class="scanner-card scanner-gradient rounded-2xl p-6 sm:p-8 text-center relative" id="scanner-card">
+        <!-- Scanning visual elements -->
+        <div class="scan-frame"></div>
+        <div class="scan-frame scan-frame-bottom"></div>
+
+        <div class="relative z-10">
+          <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 
+                      flex items-center justify-center shadow-inner">
+            <i data-lucide="scan" class="w-8 h-8 text-emerald-600 dark:text-emerald-400"></i>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">Scan & Classify Waste</h2>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
+            Point your camera at a waste item or upload a photo to identify it and learn the correct disposal method.
+          </p>
+
+          <div id="scanner-actions" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <button id="open-camera-btn"
+                    class="flex-1 flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl 
+                           bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm
+                           transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+                    aria-label="Open camera to scan waste">
+              <i data-lucide="camera" class="w-5 h-5"></i>
+              Open Camera
+            </button>
+
+            <button id="upload-btn"
+                    class="flex-1 flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl 
+                           border-2 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300
+                           hover:bg-emerald-50 dark:hover:bg-emerald-900/20 font-semibold text-sm
+                           transition-all hover:-translate-y-0.5 active:translate-y-0"
+                    aria-label="Upload an image to classify">
+              <i data-lucide="upload" class="w-5 h-5"></i>
+              Upload Image
+            </button>
+          </div>
+
+          <!-- Hidden file input -->
+          <input type="file" id="file-input" accept="image/jpeg,image/jpg,image/png,image/webp" 
+                 class="sr-only-input" aria-label="Choose an image file" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CAMERA VIEW ========== -->
+    <section id="camera-view" class="mt-6 hidden animate-scale-in">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+        <div class="camera-container relative">
+          <video id="camera-video" playsinline autoplay muted 
+                 class="w-full rounded-t-2xl bg-black"
+                 aria-label="Live camera feed"></video>
+
+          <!-- Scan frame overlay -->
+          <div class="absolute inset-0 pointer-events-none">
+            <div class="scan-frame"></div>
+            <div class="scan-frame scan-frame-bottom"></div>
+            <div class="scan-line"></div>
+          </div>
+
+          <!-- Camera controls overlay -->
+          <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+            <div class="flex items-center justify-center gap-6">
+              <!-- Close Camera -->
+              <button id="close-camera-btn"
+                      class="w-11 h-11 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm 
+                             flex items-center justify-center transition-all"
+                      aria-label="Close camera">
+                <i data-lucide="x" class="w-5 h-5 text-white"></i>
+              </button>
+
+              <!-- Capture -->
+              <button id="capture-btn" class="capture-btn" aria-label="Capture image for classification"></button>
+
+              <!-- Switch Camera -->
+              <button id="switch-camera-btn"
+                      class="w-11 h-11 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm 
+                             flex items-center justify-center transition-all"
+                      style="display: none;"
+                      aria-label="Switch camera">
+                <i data-lucide="switch-camera" class="w-5 h-5 text-white"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden canvas for frame capture -->
+      <canvas id="camera-canvas" class="hidden" aria-hidden="true"></canvas>
+    </section>
+
+    <!-- ========== UPLOAD PREVIEW ========== -->
+    <section id="upload-preview-section" class="mt-6 hidden animate-scale-in">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 p-5">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <i data-lucide="image" class="w-5 h-5 text-emerald-500"></i>
+          Image Preview
+        </h3>
+
+        <div class="relative rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-700 mb-4">
+          <img id="upload-preview-img" src="" alt="Uploaded image preview" 
+               class="w-full max-h-96 object-contain" />
+        </div>
+
+        <div class="flex gap-3">
+          <button id="classify-upload-btn"
+                  class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl 
+                         bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm transition-all shadow-md">
+            <i data-lucide="zap" class="w-4 h-4"></i>
+            Classify Image
+          </button>
+          <button id="clear-upload-btn"
+                  class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl 
+                         border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400
+                         hover:bg-gray-50 dark:hover:bg-gray-700 font-medium text-sm transition-all">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+            Clear
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== RESULT SECTION ========== -->
+    <section id="result-section" class="mt-6 hidden animate-fade-in-up">
+      <div id="result-card" class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-5 sm:p-6 relative">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <i data-lucide="clipboard-check" class="w-5 h-5 text-emerald-500"></i>
+          Classification Result
+        </h3>
+        <div id="result-content">
+          <!-- Dynamically populated by app.js -->
+        </div>
+
+        <!-- Hidden preview for captured images -->
+        <img id="captured-preview" class="hidden" alt="" aria-hidden="true" />
+      </div>
+    </section>
+
+    <!-- ========== QUICK CATEGORY CARDS ========== -->
+    <section class="mt-10 animate-fade-in-up" style="animation-delay: 200ms">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+        <i data-lucide="layers" class="w-5 h-5 text-emerald-500"></i>
+        Waste Categories
+      </h2>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 stagger-children">
+        <!-- Recyclable -->
+        <button data-category-info="recyclable"
+                class="category-card bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700
+                       shadow-sm text-left group"
+                aria-label="View recyclable waste info">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-3
+                      group-hover:scale-110 transition-transform">
+            <i data-lucide="recycle" class="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i>
+          </div>
+          <h3 class="font-semibold text-sm text-gray-900 dark:text-white">Recyclable</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Plastic, paper, metal, glass</p>
+        </button>
+
+        <!-- Organic -->
+        <button data-category-info="organic"
+                class="category-card bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700
+                       shadow-sm text-left group"
+                aria-label="View organic waste info">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mb-3
+                      group-hover:scale-110 transition-transform">
+            <i data-lucide="leaf" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i>
+          </div>
+          <h3 class="font-semibold text-sm text-gray-900 dark:text-white">Organic</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Food, peels, garden waste</p>
+        </button>
+
+        <!-- E-Waste -->
+        <button data-category-info="ewaste"
+                class="category-card bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700
+                       shadow-sm text-left group"
+                aria-label="View e-waste info">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-3
+                      group-hover:scale-110 transition-transform">
+            <i data-lucide="cpu" class="w-5 h-5 text-purple-600 dark:text-purple-400"></i>
+          </div>
+          <h3 class="font-semibold text-sm text-gray-900 dark:text-white">E-Waste</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Phones, cables, batteries</p>
+        </button>
+
+        <!-- Non-Recyclable -->
+        <button data-category-info="non_recyclable"
+                class="category-card bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700
+                       shadow-sm text-left group"
+                aria-label="View non-recyclable waste info">
+          <div class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-3
+                      group-hover:scale-110 transition-transform">
+            <i data-lucide="trash-2" class="w-5 h-5 text-red-600 dark:text-red-400"></i>
+          </div>
+          <h3 class="font-semibold text-sm text-gray-900 dark:text-white">Non-Recyclable</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Styrofoam, mixed waste</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== SCAN HISTORY ========== -->
+    <section class="mt-10 animate-fade-in-up" style="animation-delay: 300ms">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <i data-lucide="clock" class="w-5 h-5 text-emerald-500"></i>
+          Recent Scans
+        </h2>
+        <button id="clear-history-btn" class="hidden text-xs text-red-500 hover:text-red-700 dark:hover:text-red-400 
+                                               font-medium transition-colors flex items-center gap-1"
+                aria-label="Clear all scan history">
+          <i data-lucide="trash" class="w-3.5 h-3.5"></i> Clear All
+        </button>
+      </div>
+
+      <div id="history-list" class="space-y-2">
+        <!-- Dynamically populated -->
+      </div>
+
+      <div id="history-empty" class="text-center py-8">
+        <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+          <i data-lucide="scan-search" class="w-7 h-7 text-gray-400"></i>
+        </div>
+        <p class="text-sm text-gray-500 dark:text-gray-400">No scans yet. Start by scanning a waste item!</p>
+      </div>
+    </section>
+
+    <!-- ========== STATISTICS ========== -->
+    <section class="mt-10 animate-fade-in-up" style="animation-delay: 400ms">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            <i data-lucide="bar-chart-3" class="w-5 h-5 text-emerald-500"></i>
+            Your Scan Statistics
+          </h2>
+          <div class="text-right">
+            <p class="text-xs text-gray-500 dark:text-gray-400">Total Scans</p>
+            <p class="text-2xl font-bold text-emerald-600" id="stats-total">0</p>
+          </div>
+        </div>
+
+        <div id="stats-content" class="space-y-3">
+          <!-- Dynamically populated -->
+        </div>
+
+        <p class="text-xs text-gray-400 dark:text-gray-600 mt-4 italic">
+          These are your personal scan counts, not verified environmental impact statistics.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========== LOCATION & DISPOSAL GUIDE ========== -->
+    <section class="mt-10 animate-fade-in-up" style="animation-delay: 500ms">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Local Info -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <i data-lucide="map-pin" class="w-5 h-5 text-emerald-500"></i>
+            Your Location
+          </h2>
+
+          <div class="flex gap-3 mb-4">
+            <select id="city-select" 
+                    class="flex-1 px-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 
+                           bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-emerald-500 transition-all"
+                    aria-label="Select your city">
+              <option value="">Select your city</option>
+            </select>
+            <button id="detect-location-btn"
+                    class="px-3 py-2.5 rounded-xl border border-emerald-300 dark:border-emerald-700 
+                           text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20
+                           text-sm font-medium transition-all flex items-center gap-1.5"
+                    aria-label="Auto-detect your location">
+              <i data-lucide="locate" class="w-4 h-4"></i>
+              <span class="hidden sm:inline">Detect</span>
+            </button>
+          </div>
+
+          <div id="city-info">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div class="mt-4 p-3 bg-gray-50 dark:bg-gray-750 rounded-xl">
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              <i data-lucide="info" class="w-3 h-3 inline mr-1"></i>
+              Location is used only to show local waste collection rules. No data is sent to any server.
+            </p>
+          </div>
+        </div>
+
+        <!-- Disposal Guide -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
+          <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <i data-lucide="book-open" class="w-5 h-5 text-emerald-500"></i>
+            Disposal Guide
+          </h2>
+
+          <div id="disposal-guide-content" class="space-y-3">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+            <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Official Resources</h4>
+            <div class="space-y-2">
+              <a href="https://cpcb.nic.in/" target="_blank" rel="noopener noreferrer" 
+                 class="flex items-center gap-2 text-sm text-emerald-600 dark:text-emerald-400 hover:underline">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                Central Pollution Control Board (CPCB)
+              </a>
+              <a href="https://moef.gov.in/" target="_blank" rel="noopener noreferrer" 
+                 class="flex items-center gap-2 text-sm text-emerald-600 dark:text-emerald-400 hover:underline">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                Ministry of Environment, Forest & Climate Change
+              </a>
+              <a href="https://cpcb.nic.in/e-waste/" target="_blank" rel="noopener noreferrer" 
+                 class="flex items-center gap-2 text-sm text-emerald-600 dark:text-emerald-400 hover:underline">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                CPCB E-Waste Management
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="mt-16 pt-8 pb-8 border-t border-gray-200 dark:border-gray-800">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center">
+              <i data-lucide="leaf" class="w-4 h-4 text-white"></i>
+            </div>
+            <span class="font-bold text-gray-900 dark:text-white">EcoSort AI</span>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+            AI-powered waste classification to promote responsible waste management, 
+            recycling, and reduced landfill waste. Supporting SDG 15: Life on Land.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Environmental Impact</h4>
+          <ul class="space-y-1.5 text-xs text-gray-500 dark:text-gray-400">
+            <li class="flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-3 h-3 text-emerald-500"></i>
+              Reduce landfill waste through proper sorting
+            </li>
+            <li class="flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-3 h-3 text-emerald-500"></i>
+              Increase recycling awareness
+            </li>
+            <li class="flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-3 h-3 text-emerald-500"></i>
+              Prevent hazardous e-waste contamination
+            </li>
+            <li class="flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-3 h-3 text-emerald-500"></i>
+              Support circular economy initiatives
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Privacy & Limitations</h4>
+          <ul class="space-y-1.5 text-xs text-gray-500 dark:text-gray-400">
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="shield-check" class="w-3 h-3 text-emerald-500 mt-0.5"></i>
+              All image processing happens locally in your browser
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="shield-check" class="w-3 h-3 text-emerald-500 mt-0.5"></i>
+              No images are uploaded to external servers
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="alert-circle" class="w-3 h-3 text-amber-500 mt-0.5"></i>
+              AI predictions may not always be accurate
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="alert-circle" class="w-3 h-3 text-amber-500 mt-0.5"></i>
+              Always verify with local waste management rules
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800 text-center">
+        <p class="text-xs text-gray-400 dark:text-gray-600">
+          © 2026 EcoSort AI — Built for a cleaner tomorrow. 
+          <span class="inline-flex items-center gap-1">
+            Powered by <i data-lucide="brain" class="w-3 h-3"></i> TensorFlow.js & Teachable Machine
+          </span>
+        </p>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- CATEGORY DETAIL MODAL -->
+  <!-- ============================================================ -->
+  <div id="category-modal" 
+       class="hidden fixed inset-0 z-[60] items-center justify-center p-4 modal-backdrop"
+       role="dialog" aria-modal="true" aria-label="Category details">
+    <div id="category-modal-content" 
+         class="bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto 
+                shadow-2xl border border-gray-100 dark:border-gray-700 animate-scale-in">
+      <!-- Dynamically populated -->
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TOAST CONTAINER -->
+  <!-- ============================================================ -->
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ============================================================ -->
+  <!-- SCRIPTS -->
+  <!-- ============================================================ -->
+  <!-- TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <!-- Teachable Machine Image Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+
+  <!-- App Modules (order matters — dependencies first) -->
+  <script src="js/ui.js"></script>
+  <script src="js/disposal-rules.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/location.js"></script>
+  <script src="js/camera.js"></script>
+  <script src="js/classifier.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+  </script>
+
+</body>
+</html>
